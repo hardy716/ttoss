@@ -59,4 +59,6 @@ abstract class AbstractThemeColors {
   Color get blueText => AppColors.blue;
 
   Color get plusRedText => AppColors.salmon;
+
+  Color get minusBlueText => AppColors.brightBlue;
 }

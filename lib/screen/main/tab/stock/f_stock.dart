@@ -71,14 +71,11 @@ class _StockFragmentState extends State<StockFragment>
                 title,
                 tabBar,
                 if (currentIndex == 0)
-                  MyStockFragment()
+                  const MyStockFragment()
                 else
-                  TodaysDiscoveryFragment(),
-                myAccount,
-                height20,
-                myStocks,
+                  const TodaysDiscoveryFragment(),
               ],
-            ),
+            ).pOnly(bottom: 50.0),
           ),
         ],
       ),
@@ -139,6 +136,4 @@ class _StockFragmentState extends State<StockFragment>
           ],
         ),
       );
-  Widget get myAccount => Placeholder();
-  Widget get myStocks => Placeholder();
 }
