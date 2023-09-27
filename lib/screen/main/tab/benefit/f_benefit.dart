@@ -17,6 +17,7 @@ class _BenefitFragmentState extends State<BenefitFragment> {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.black,
       child: SingleChildScrollView(
         padding: const EdgeInsets.only(
             bottom: MainScreenState.bottomNavigatorHeight),

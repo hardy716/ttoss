@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../common/widget/w_image_button.dart';
+import 'tab/f_my_stock.dart';
+import 'tab/f_todays_discovery.dart';
 
 class StockFragment extends StatefulWidget {
   const StockFragment({super.key});
@@ -18,11 +20,7 @@ class _StockFragmentState extends State<StockFragment>
   // final TabController tabController = TabController(length: 2, vsync: this);
   // this를 인식하지 못함 -> State가 생성되는 과정에서 tabController를 생성하려고 하기 때문
 
-  // 방법 1 : late 키워드 사용 -> tabController를 필요로 하는 시점에 초기화
-  late final TabController tabController =
-      TabController(length: 2, vsync: this);
-
-  // 방법 2 : nullable하게 선언 후 initState -> State가 생성된 후에 initState로 초기화
+  // 방법 1 : nullable하게 선언 후 initState -> State가 생성된 후에 initState로 초기화
   // TabController? tabController;
   //
   // @override
@@ -31,12 +29,20 @@ class _StockFragmentState extends State<StockFragment>
   //   super.initState();
   // }
 
+  // 방법 2 : late 키워드 사용 -> tabController를 필요로 하는 시점에 초기화
+  late final TabController tabController =
+      TabController(length: 2, vsync: this);
+
+  int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.black,
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: context.appColors.roundedLayoutBackground,
             pinned: true,
             actions: [
               ImageButton(
@@ -64,6 +70,10 @@ class _StockFragmentState extends State<StockFragment>
               children: [
                 title,
                 tabBar,
+                if (currentIndex == 0)
+                  MyStockFragment()
+                else
+                  TodaysDiscoveryFragment(),
                 myAccount,
                 height20,
                 myStocks,
@@ -75,48 +85,59 @@ class _StockFragmentState extends State<StockFragment>
     );
   }
 
-  Widget get title => Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          "토스증권".text.size(24.0).bold.make(),
-          width20,
-          "S&P 500"
-              .text
-              .size(13.0)
-              .bold
-              .color(context.appColors.lessImportant)
-              .make(),
-          width10,
-          3919.29
-              .toComma()
-              .text
-              .size(13.0)
-              .bold
-              .color(context.appColors.plusRedText)
-              .make(),
-        ],
-      ).pOnly(left: 20.0);
+  Widget get title => Container(
+        color: context.appColors.roundedLayoutBackground,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            "토스증권".text.size(24.0).bold.make(),
+            width20,
+            "S&P 500"
+                .text
+                .size(13.0)
+                .bold
+                .color(context.appColors.lessImportant)
+                .make(),
+            width10,
+            3919.29
+                .toComma()
+                .text
+                .size(13.0)
+                .bold
+                .color(context.appColors.plusRedText)
+                .make(),
+          ],
+        ).pOnly(left: 20.0),
+      );
 
-  Widget get tabBar => Column(
-        children: [
-          TabBar(
-            labelStyle: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.bold,
+  Widget get tabBar => Container(
+        color: context.appColors.roundedLayoutBackground,
+        child: Column(
+          children: [
+            TabBar(
+              onTap: (index) {
+                setState(() {
+                  currentIndex = index;
+                });
+              },
+              labelStyle: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+              ),
+              labelColor: Colors.white,
+              labelPadding: const EdgeInsets.symmetric(vertical: 20.0),
+              indicatorPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+              indicatorSize: TabBarIndicatorSize.tab,
+              indicatorColor: Colors.white,
+              controller: tabController,
+              tabs: [
+                "내 주식".text.make(),
+                "오늘의 발견".text.make(),
+              ],
             ),
-            labelColor: Colors.white,
-            labelPadding: const EdgeInsets.symmetric(vertical: 20.0),
-            indicatorPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-            indicatorSize: TabBarIndicatorSize.tab,
-            indicatorColor: Colors.white,
-            controller: tabController,
-            tabs: [
-              "내 주식".text.make(),
-              "오늘의 발견".text.make(),
-            ],
-          ),
-          const Line(),
-        ],
+            const Line(),
+          ],
+        ),
       );
   Widget get myAccount => Placeholder();
   Widget get myStocks => Placeholder();
