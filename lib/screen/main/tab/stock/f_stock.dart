@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../../../common/widget/w_image_button.dart';
+import 'search/s_search_stock.dart';
 import 'tab/f_my_stock.dart';
 import 'tab/f_todays_discovery.dart';
 
@@ -47,7 +48,7 @@ class _StockFragmentState extends State<StockFragment>
             actions: [
               ImageButton(
                 onTap: () {
-                  context.showSnackbar("검색");
+                  Nav.push(const SearchStockScreen());
                 },
                 imagePath: '$basePath/icon/stock_search.png',
               ),
